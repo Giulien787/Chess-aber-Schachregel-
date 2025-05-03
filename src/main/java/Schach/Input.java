@@ -1,7 +1,7 @@
-package de.chemeker.Schach;
+package Schach;
 
 
-import de.chemeker.Piece.Pieces;
+import Pieces.Pieces;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,6 +19,8 @@ public class Input extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+
         int col = e.getX() / board.tileSize;
         int row = e.getY() / board.tileSize;
 /*
@@ -30,7 +32,14 @@ public class Input extends MouseAdapter {
 
 
         Pieces p = board.getPieces(e.getX() / board.tileSize, e.getY() / board.tileSize);
-        if (p != null) {
+
+
+        if (p != null && p.isWhite == board.isweiß_bewegt()) {
+            board.selectedPieces = p;
+            dragOffsetX = e.getX() - p.posx;
+            dragOffsetY = e.getY() - p.posy;
+        }
+      /*  if (p != null) {
             board.selectedPieces = p;
 
             // Berechne den Klick-Offset relativ zur Figur
@@ -38,6 +47,9 @@ public class Input extends MouseAdapter {
             dragOffsetY = e.getY() - p.posy;
         }
         //}
+
+
+       */
     }
 
     @Override

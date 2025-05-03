@@ -1,9 +1,10 @@
-package Piece;
+package Pieces;
 
 import Schach.Board;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+
 
 public class Rook extends Pieces {
 
@@ -12,9 +13,16 @@ public class Rook extends Pieces {
 
     public static JLabel lbl_Knight;
 
+    /**
+     * Konstruktor: Erstellt einen Turm an der gegebenen Position.
+     *
+     * board1   Das Spielfeld
+     * col      Spalte des Turms
+     * row      Zeile des Turms
+     * isWhite  Farbe des Turms (weiß oder schwarz)
+     */
     public Rook(Board board1, int col, int row, boolean isWhite) {
         super(board1);
-
 
         this.col = col;
         this.row = row;
@@ -22,76 +30,70 @@ public class Rook extends Pieces {
         this.posx = col * board1.tileSize;
         this.posy = row * board1.tileSize;
         this.name = "Rook";
-        this.sprite = Sheet.getSubimage(4 * sheetscale, isWhite ? 0 : sheetscale, sheetscale, sheetscale).getScaledInstance(board1.tileSize, board1.tileSize, BufferedImage.SCALE_SMOOTH);
-
+        // Lade und skaliere das richtige Sprite basierend auf Farbe
+        this.sprite = Sheet.getSubimage(4 * sheetscale, isWhite ? 0 : sheetscale, sheetscale, sheetscale)
+                .getScaledInstance(board1.tileSize, board1.tileSize, BufferedImage.SCALE_SMOOTH);
     }
 
+    /**
+     * Prüft, ob der Zug in einer legalen Richtung für einen Turm erfolgt.
+     * Gültige Richtungen: gleiche Zeile (horizontal) oder gleiche Spalte (vertikal).
+     *
+     * col Zielspalte
+     * row Zielzeile
+     * return true, wenn der Zug vertikal oder horizontal ist
+     */
     public boolean isValidmove(int col, int row) {
-
         return this.col == col || this.row == row;
-
     }
 
+    /**
+     * Überprüft, ob zwischen aktueller Position und Ziel eine andere Figur steht.
+     * Der Turm darf nicht über andere Figuren hinwegziehen.
+     *
+     * col Zielspalte
+     * row Zielzeile
+     * return true, wenn der Weg blockiert ist
+     */
     public boolean Blocked(int col, int row) {
 
-
-        //links
+        // Horizontal nach links
         if (this.col > col) {
-            for (int c = this.col - 1; c > col; c--) {      // -1 weil ganz links 0|0 ist ist also weiter nach links
+            for (int c = this.col - 1; c > col; c--) {
                 if (board.getPieces(c, this.row) != null) {
-
-
                     return true;
                 }
-
             }
         }
 
-        //rechts
+        // Horizontal nach rechts
         if (this.col < col) {
-            for (int c = this.col +1; c < col; c++) {      // +1 weil ganz links 0|0 ist also weiter nach rechts
+            for (int c = this.col + 1; c < col; c++) {
                 if (board.getPieces(c, this.row) != null) {
                     return true;
                 }
-
             }
-
         }
 
-        //oben
+        // Vertikal nach oben
         if (this.row > row) {
-            for (int r = this.row -1; r > row; r--) {      // +1 weil ganz links 0|0 ist also weiter nach rechts
-                if (board.getPieces( this.col,r) != null) {
+            for (int r = this.row - 1; r > row; r--) {
+                if (board.getPieces(this.col, r) != null) {
                     return true;
                 }
-
             }
-
         }
 
-        //unten
+        // Vertikal nach unten
         if (this.row < row) {
-            for (int r = this.row + 1; r < row; r++) {      // -1 weil ganz links 0|0 ist ist also weiter nach links
-                if (board.getPieces( this.col,r) != null) {
-
-
+            for (int r = this.row + 1; r < row; r++) {
+                if (board.getPieces(this.col, r) != null) {
                     return true;
                 }
-
             }
         }
 
-
-
-
-
+        // Kein Hindernis gefunden
         return false;
-
-        }
-
-
-
-
-
-
     }
+}

@@ -1,35 +1,63 @@
-package Piece;
+package Pieces;
 
 import Schach.Board;
-
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
+
 public class King extends Pieces {
 
+    // (Aktuell ungenutzt) Referenz auf das Fenster – kann ggf. entfernt werden
     private static JFrame frm;
+
+    // Größe eines Feldes auf dem Schachbrett (könnte auch direkt vom Board verwendet werden)
     public int tileSize = 110;
 
+    // (Aktuell ungenutzt) GUI-Element – vermutlich ein Überbleibsel aus einer anderen Klasse
     public static JLabel lbl_Knight;
+
+    /**
+     * Konstruktor zur Initialisierung des Königs.
+     *
+     * board1  Referenz auf das Spielfeld
+
+     * isWhite true, wenn die Figur weiß ist, sonst schwarz
+     */
     public King(Board board1, int col, int row, boolean isWhite) {
         super(board1);
 
-
+        // Grundlegende Position und Farbe setzen
         this.col = col;
         this.row = row;
         this.isWhite = isWhite;
-        this.posx = col * board1.tileSize ;
-        this.posy = row * board1.tileSize ;
+
+        // Position in Pixel berechnen
+        this.posx = col * board1.tileSize;
+        this.posy = row * board1.tileSize;
+
+        // Name und Sprite setzen
         this.name = "King";
-        this.sprite = Sheet.getSubimage(0* sheetscale,isWhite ? 0:sheetscale,sheetscale,sheetscale).getScaledInstance(board1.tileSize,board1.tileSize, BufferedImage.SCALE_SMOOTH);
-
+        this.sprite = Sheet.getSubimage(
+                0 * sheetscale,                        // X-Position im Sprite-Sheet (0 = König)
+                isWhite ? 0 : sheetscale,              // Y-Position: 0 = weiß, sonst schwarz
+                sheetscale, sheetscale                 // Breite und Höhe
+        ).getScaledInstance(board1.tileSize, board1.tileSize, BufferedImage.SCALE_SMOOTH);
     }
 
+    /**
+     * Prüft, ob der Zug gültig ist. Der König darf genau ein Feld
+     * in jede Richtung ziehen (horizontal, vertikal oder diagonal).
+     *
+     * col Zielspalte
+     * row Zielzeile
+     * return true, wenn der Zug legal ist, sonst false
+     */
+    public boolean isValidmove(int col, int row) {
 
-    public boolean isValidmove( int col, int row) {
-        return Math.abs((col - this.col) * (row - this.row)) == 1 || Math.abs(col - this.col) + Math.abs(row - this.row) == 1  ;
+        // Math.abs sorgt dafür, dass Vorzeichen keine Rolle spielen – nur die Entfernung zählt.
+        return Math.abs((col - this.col) * (row - this.row)) == 1
+                || Math.abs(col - this.col) + Math.abs(row - this.row) == 1;
     }
-
-
 }
+

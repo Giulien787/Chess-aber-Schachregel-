@@ -1,7 +1,6 @@
-package de.chemeker.Schach;
+package Schach;
 
-import de.chemeker.Piece.Pieces;
-import de.chemeker.Schach.*;
+import Pieces.Pieces;
 
 public class Move {
 
